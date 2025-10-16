@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Canva Designs Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        header h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 18px;
+            opacity: 0.95;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .about-section {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            margin-bottom: 50px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .about-section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 28px;
+        }
+        
+        .about-section p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #555;
+        }
+        
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+            justify-content: center;
+        }
+        
+        .filter-btn {
+            padding: 10px 25px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .portfolio-item {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .portfolio-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .portfolio-content {
+            padding: 25px;
+        }
+        
+        .portfolio-category {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .portfolio-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .portfolio-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .portfolio-meta {
+            font-size: 13px;
+            color: #999;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .view-btn {
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        
+        .view-btn:hover {
+            background: #764ba2;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 10px;
+            max-width: 500px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h2 {
+            font-size: 24px;
+        }
+        
+        .close {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        
+        .close:hover {
+            opacity: 0.7;
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .modal-body h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .modal-body p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .modal-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 60px;
+        }
+        
+        footer p {
+            margin: 10px 0;
+        }
+        
+        .contact-links {
+            margin-top: 20px;
+        }
+        
+        .contact-links a {
+            color: #667eea;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 600;
+        }
+        
+        .contact-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+            font-size: 18px;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 36px;
+            }
+            
+            .portfolio-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 20px;
+            }
+            
+            .modal-content {
+                margin: 20% auto;
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Canva Design Portfolio</h1>
+        <p style="margin-bottom: 5px;">by <strong>Samrudhi Pawar</strong></p>
+        <p>Curated Collection of Books, Flyers & Creative Designs</p>
+    </header>
+    
+    <div class="container">
+        <div class="about-section">
+            <h2>About This Portfolio</h2>
+            <p>Welcome to my design portfolio! Here you'll find a comprehensive collection of Canva designs including children's educational books, promotional flyers, advertisement standees, and other creative materials. Each project reflects a commitment to engaging visual design and meaningful content creation. Browse through the categories to explore different design styles and projects.</p>
+        </div>
+        
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterCategory('all')">All Projects</button>
+            <button class="filter-btn" onclick="filterCategory('books')">Books</button>
+            <button class="filter-btn" onclick="filterCategory('flyers')">Flyers</button>
+            <button class="filter-btn" onclick="filterCategory('standees')">Standees</button>
+            <button class="filter-btn" onclick="filterCategory('other')">Other</button>
+        </div>
+        
+        <div class="portfolio-grid" id="portfolioGrid">
+            <!-- Portfolio items will be generated here -->
+        </div>
+        
+        <div id="noResults" class="no-results" style="display: none;">
+            No projects found in this category.
+        </div>
+    </div>
+    
+    <!-- Modal -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle"></h2>
+                <button class="close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; margin-bottom: 20px; font-size: 50px;" id="modalIcon"></div>
+                <h3>Project Details</h3>
+                <p id="modalDescription"></p>
+                <div class="modal-stats">
+                    <div class="stat-item">
+                        <div class="stat-label">Category</div>
+                        <div class="stat-value" id="modalCategory" style="font-size: 16px; text-transform: capitalize;"></div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Pages/Units</div>
+                        <div class="stat-value" id="modalPages"></div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Format</div>
+                        <div class="stat-value" id="modalFormat" style="font-size: 14px;"></div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">Year</div>
+                        <div class="stat-value" id="modalYear"></div>
+                    </div>
+                </div>
+                <h3 style="margin-top: 20px;">Key Features</h3>
+                <p id="modalFeatures"></p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2024 Samrudhi Pawar - Canva Designs Portfolio. All rights reserved.</p>
+        <p>Designed with creativity and passion.</p>
+        <div class="contact-links">
+            <a href="https://www.linkedin.com/in/samrudhipawar21/" target="_blank">LinkedIn</a>
+            <a href="mailto:samrudhipawar21@gmail.com">Email</a>
+        </div>
+    </footer>
+    
+    <script>
+        const portfolioData = [
+            {
+                id: 1,
+                title: "Hands Are for Helping, Not Hitting",
+                category: "books",
+                icon: "🤲",
+                pages: "12",
+                format: "A4",
+                year: "2024",
+                description: "An engaging children's book teaching kindness and positive behavior through an inspiring story about helping hands.",
+                fullDescription: "A beautifully illustrated A4 printable book designed for children aged 2-5. Features a complete narrative arc teaching children about the positive uses of hands, with practical coping strategies and an engaging story.",
+                features: "Full-color gradient backgrounds, large kid-friendly fonts, photo placeholders, professional binding guides, back cover with actionable tips."
+            },
+            {
+                id: 2,
+                title: "Teeth Are Not for Biting",
+                category: "books",
+                icon: "🦷",
+                pages: "12",
+                format: "A5",
+                year: "2024",
+                description: "Toto the Tiger Cub learns about gentle behavior through this charming story about teeth and kindness.",
+                fullDescription: "An A5-sized children's book featuring Toto the Tiger Cub. This story teaches emotional awareness and gentle behavior with colorful illustrations and age-appropriate messaging.",
+                features: "Character-driven narrative, warm tiger-themed colors, illustration guides for each page, back cover activity suggestions, print-ready format."
+            },
+            {
+                id: 3,
+                title: "Words Are Not for Hurting",
+                category: "books",
+                icon: "💬",
+                pages: "12",
+                format: "A5",
+                year: "2024",
+                description: "Kenny and Ove discover the power of kind words in this heartwarming tale about communication and friendship.",
+                fullDescription: "An A5 printable book featuring Kenny and Ove learning about positive communication. Includes discussion points for caregivers and practical tips for children.",
+                features: "Rhyming verses, soft pastel gradients, character-centered storyline, detailed illustration suggestions, comprehensive back cover tips."
+            },
+            {
+                id: 4,
+                title: "Feet Are Not for Kicking",
+                category: "books",
+                icon: "👣",
+                pages: "12",
+                format: "A5",
+                year: "2024",
+                description: "Tia and Ron, the happy feet twins, learn the importance of gentle movement and the 'Magic Pause' technique.",
+                fullDescription: "An A5 book featuring innovative coping strategies like the Magic Pause technique. Combines physical activity themes with emotional regulation teaching.",
+                features: "Playful rhyming narrative, movement-focused themes, Magic Pause instructions, colorful gradient pages, actionable back cover activities."
+            },
+            {
+                id: 5,
+                title: "Screen Time Is Not Forever",
+                category: "books",
+                icon: "📱",
+                pages: "12",
+                format: "A5",
+                year: "2024",
+                description: "Ayaan and Vivaan explore the importance of balance between screens and real-world experiences.",
+                fullDescription: "An A5 printable book addressing digital wellness for young children. Features two contrasting characters and teaches healthy balance.",
+                features: "Contrasting lifestyle comparison, cultural references, warm narrative, practical activities, beautiful sunset imagery, emphasis on balance not restriction."
+            },
+            {
+                id: 6,
+                title: "Zappy Genius Academy Standee",
+                category: "standees",
+                icon: "🎓",
+                pages: "1",
+                format: "Custom",
+                year: "2024",
+                description: "Professional advertisement standee for an educational academy featuring all programs and contact information.",
+                fullDescription: "A full-color vertical standee banner promoting educational programs. Features colorful program cards, photo sections, and complete contact details.",
+                features: "Professional gradient backgrounds, large readable fonts, photo integration areas, program highlights, contact information sections, printable specifications."
+            },
+            {
+                id: 7,
+                title: "Phonics Video Template",
+                category: "flyers",
+                icon: "🎬",
+                pages: "10",
+                format: "1080x1920px",
+                year: "2024",
+                description: "Interactive Canva-style video template for teaching 'C or K' phonics rules with animated slides.",
+                fullDescription: "A comprehensive video template structure with 10 animated slides teaching phonics concepts. Includes audio script timing and visual guides.",
+                features: "Animated transitions, colorful gradients, large readable text, character animations, quiz slides, recap sections, professional pacing."
+            },
+            {
+                id: 8,
+                title: "IEP Daily Planner",
+                category: "other",
+                icon: "📋",
+                pages: "1",
+                format: "A4 Landscape",
+                year: "2024",
+                description: "Comprehensive fillable planner for special education professionals tracking 10 learning steps daily.",
+                fullDescription: "A landscape A4 planner designed for teachers conducting Individual Education Program sessions. Features 10 structured learning steps with tracking columns.",
+                features: "10-step learning pathway, easy-to-fill columns, prompting ladder guide, materials tracking, progress notes section, professional layout."
+            },
+            {
+                id: 9,
+                title: "Hands Are for Helping Interactive Story",
+                category: "books",
+                icon: "📖",
+                pages: "Interactive",
+                format: "Digital",
+                year: "2024",
+                description: "Interactive HTML-based children's storybook with clickable navigation and beautiful animations.",
+                fullDescription: "A digital interactive version of the popular book featuring smooth animations, character interactions, and engaging visual effects.",
+                features: "Smooth fade transitions, animated characters, interactive navigation, emoji integration, mobile-responsive design, professional CSS styling."
+            },
+            {
+                id: 10,
+                title: "IEEE Research Paper Formatting",
+                category: "other",
+                icon: "📄",
+                pages: "Multiple",
+                format: "A4",
+                year: "2024",
+                description: "Professional single-column formatting of IEEE research paper on ESP32-based IoT drone technology.",
+                fullDescription: "A complete academic paper reformatted from 2-column to single-column layout with professional typography and structured sections.",
+                features: "IEEE formatting standards, clear typography hierarchy, section management, reference organization, print-ready quality."
+            }
+        ];
+        
+        let currentFilter = 'all';
+        
+        function displayPortfolio() {
+            const grid = document.getElementById('portfolioGrid');
+            const noResults = document.getElementById('noResults');
+            
+            const filtered = currentFilter === 'all' 
+                ? portfolioData 
+                : portfolioData.filter(item => item.category === currentFilter);
+            
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                noResults.style.display = 'block';
+                return;
+            }
+            
+            noResults.style.display = 'none';
+            grid.innerHTML = filtered.map(item => `
+                <div class="portfolio-item" onclick="openModal(${item.id})">
+                    <div class="portfolio-image">${item.icon}</div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">${item.category.charAt(0).toUpperCase() + item.category.slice(1)}</span>
+                        <h3 class="portfolio-title">${item.title}</h3>
+                        <p class="portfolio-description">${item.description}</p>
+                        <div class="portfolio-meta">
+                            <span>${item.pages} pages</span>
+                            <button class="view-btn" onclick="event.stopPropagation(); openModal(${item.id})">View</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function filterCategory(category) {
+            currentFilter = category;
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            displayPortfolio();
+        }
+        
+        function openModal(id) {
+            const project = portfolioData.find(p => p.id === id);
+            if (!project) return;
+            
+            document.getElementById('modalTitle').textContent = project.title;
+            document.getElementById('modalIcon').textContent = project.icon;
+            document.getElementById('modalDescription').textContent = project.fullDescription;
+            document.getElementById('modalCategory').textContent = project.category;
+            document.getElementById('modalPages').textContent = project.pages;
+            document.getElementById('modalFormat').textContent = project.format;
+            document.getElementById('modalYear').textContent = project.year;
+            document.getElementById('modalFeatures').textContent = project.features;
+            
+            document.getElementById('projectModal').style.display = 'block';
+        }
+        
+        function closeModal() {
+            document.getElementById('projectModal').style.display = 'none';
+        }
+        
+        window.onclick = function(event) {
+            const modal = document.getElementById('projectModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        displayPortfolio();
+    </script>
+</body>
+</html>
